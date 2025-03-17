@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+  display: flex;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -35,4 +36,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.Modal{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #282c34;
+  height: 50vh;
+  width: 50%;
+  margin: auto;
+  border-radius: 5px;
 }
