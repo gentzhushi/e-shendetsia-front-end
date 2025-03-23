@@ -46,6 +46,13 @@
   width: 100%;
 }
 
+@media(max-width: 500px){
+  #login-form{
+    width: max-content;
+    margin:0 5%;
+  }
+}
+
 /* chromium me i hek shijetat*/
 .Modal form label input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
