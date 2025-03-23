@@ -1,0 +1,14 @@
+.dropdown-menu {
+    cursor: pointer;
+    width: 10vw;
+}
+
+.dropdown-menu:focus .dropdown-content{
+    display: block;
+}
+
+.dropdown-content{
+    width: min-content;
+    background-color: #fff;
+    display: block;
+}
