@@ -1,0 +1,87 @@
+:root{
+  --accent-color: #034fa3 /* ngjyra */
+}
+
+.login-page {
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(-45deg,var(--accent-color), #034fa3c0);
+}
+
+#login-form{
+  padding: 1% 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min-content;
+  border: none;
+  border-radius: 25px;
+  background-color: #fff;
+  box-shadow: 4px 4px 10px #153269;
+}
+
+#login-form label{
+  display: flex;
+  flex-direction: column;
+}
+
+#login-form label input{
+  justify-content: center;
+  border-radius: 0%;
+  border: none;
+  border-bottom: groove;
+  justify-content: center;
+}
+
+#login-form input:focus{
+  outline: none;
+}
+
+#login-form button{
+  padding: 2.5%;
+  background: linear-gradient(-45deg,#153269,#153269c0);
+  color: white;
+  border-radius: 10px;
+  border: none;
+}
+
+#login-form a{
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+  font-size: 60%;
+  margin-bottom: 5%;
+  text-decoration: none;
+}
+
+#login-form a:hover{
+  font-style: italic;
+  text-decoration: underline;
+}
+
+@media(max-width: 500px){
+  #login-form{
+    width: max-content;
+    margin:0 5%;
+    padding: 10%;
+  }
+  #login-form button{
+    align-items: center;
+    font-size: medium;
+    min-height: 50px;
+  }
+}
+
+/* chromium me i hek shijetat*/
+.Modal form label input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* firefox me i hek shigjetat*/
+.Modal form label input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
