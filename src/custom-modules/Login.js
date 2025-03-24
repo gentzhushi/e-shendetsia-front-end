@@ -6,9 +6,6 @@ import TranslateMenu from './TranslateMenu.js'
 import '../css/login.css'
 import '../css/index.css'
 
-import usa from '../assets/usa.svg' 
-import albania from '../assets/albania.svg'
-
 function Login() {
   const [email, setEmail] = useState('')
   let [password, setPassword] = useState('')
@@ -24,7 +21,6 @@ function Login() {
   
   return (
     <div className='login-page'>
-      <TranslateMenu />
       <form onSubmit={handleLogin} id='login-form'>
         <Emblem />
         <label>Perdoruesi: <input type='number' pattern='[0-9]*' value={email} onChange={(e) => {setEmail(e.target.value)}}/></label><br/>
@@ -32,6 +28,7 @@ function Login() {
         
         <a href='/'>Keni harruar fjalekalimin?</a>
         <button type='submit'>Kycu</button><br/>
+        <TranslateMenu />
       </form>
     </div>
   );
