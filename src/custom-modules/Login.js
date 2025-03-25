@@ -27,8 +27,7 @@ function Login() {
         <label>Fjalekalimi: <input type='password' value={password} onChange={(e) => {setPassword(e.target.value)}}/></label><br/>
         
         <a href='/'>Keni harruar fjalekalimin?</a>
-        <button type='submit'>Kycu</button><br/>
-        <TranslateMenu />
+        <button className='accent-button' type='submit'>Kycu</button><br/>
       </form>
     </div>
   );

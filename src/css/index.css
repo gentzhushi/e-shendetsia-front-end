@@ -1,5 +1,6 @@
 :root{
-  --accent-color: #034fa3 /* ngjyra */
+  --accent-color: #034fa3; /* ngjyra */
+  --shadow-color: #153269;
 }
 
 body {
@@ -16,7 +17,7 @@ code {
     monospace;
 }
 
-button{
+.accent-button{
   padding: 2.5%;
   background: linear-gradient(-45deg,var(--accent-color), #034fa3c0);
   color: white;

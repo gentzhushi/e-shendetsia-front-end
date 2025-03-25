@@ -10,26 +10,32 @@ import '../css/TranslateMenu.css'
 
 function TranslateMenu(){
     return (
-        <div style={{height: '100%'}}>
-            <div className='dropdown-menu'>
+        <div className='login-nav'>
+            <button className='dropdown-menu'>
                 {/* globi */}
-                <img src={translate} className='dropdown-menu'/>
-            </div>
+                <img src={translate} className='dropdown-menu' style={{height:'100%'}}/>
+            </button>
             <ul>
                 <li>
-                    {/* shqip */}
-                    <img src={albania} />
-                    {/* <span>Shqip</span> */}
+                    <button className='dropdown-content'>
+                        {/* shqip */}
+                        <img src={albania} />
+                        <span>Shqip</span>
+                    </button>
                 </li>
                 <li>
-                    {/* anglisht */}
-                    <img src={usa} />
-                    {/* <span>English</span> */}
+                    <button className='dropdown-content'>
+                        {/* anglisht */}
+                        <img src={usa} />
+                        <span>English</span>
+                    </button>
                 </li>
                 <li>
-                    {/* serbisht */}
-                    <img src={srb} />
-                    {/* <span>Srpski</span> */}
+                    <button className='dropdown-content'>
+                        {/* serbisht */}
+                        <img src={srb} />
+                        <span>Srpski</span>
+                    </button>
                 </li>
             </ul>
         </div>
