@@ -21,6 +21,7 @@ function Login() {
   
   return (
     <div className='login-page'>
+      <TranslateMenu />
       <form onSubmit={handleLogin} id='login-form'>
         <Emblem />
         <label>Perdoruesi: <input type='number' pattern='[0-9]*' value={email} onChange={(e) => {setEmail(e.target.value)}}/></label><br/>

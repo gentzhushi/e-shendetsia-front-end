@@ -1,0 +1,56 @@
+.login-nav{
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background-color: transparent;
+}
+
+ul{
+    margin: 0.15vh;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+li{
+    margin: 0.15vh;
+    
+}
+
+.dropdown-menu {
+    margin: 1% 1% 0% 0%;
+}
+
+.dropdown-menu:focus{
+    /* kodi per me i shfaq gjuht */
+    background-color: hotpink;
+}
+
+.dropdown-content{
+    width: min-content;
+    background-color: #fff;
+}
+
+button{
+    width: min-content;
+    height: min-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: none;
+    border-radius: 10px;
+}
+
+button img{
+    width: 10vw;
+    border-radius: 5px;
+    padding: 5% 2% 0 0;
+}
