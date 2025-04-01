@@ -42,7 +42,7 @@ function TranslateMenu(){
           <button className='dropdown-content' onClick={handleAlbanianClick} id='shqip'
             style={{visibility: isVisible ? 'visible' : 'hidden'}}>
             {/* shqip */}
-            <img className='translation-flag' src={albania} alt='Shqip'/>
+            <img src={albania} alt='Shqip'/>
             {/* <span>Shqip</span> */}
           </button>
         </li>
@@ -50,7 +50,7 @@ function TranslateMenu(){
           <button className='dropdown-content' onClick={handleEnglishClick} id='anglisht'
             style={{visibility: isVisible ? 'visible' : 'hidden'}}>
             {/* anglisht */}
-            <img className='translation-flag' src={usa} alt='Anglisht'/>
+            <img src={usa} alt='Anglisht'/>
             {/* <span>English</span> */}
           </button>
         </li>
@@ -58,7 +58,7 @@ function TranslateMenu(){
           <button className='dropdown-content' onClick={handleSerbianClick} id='serbisht'
             style={{visibility: isVisible ? 'visible' : 'hidden'}}>
             {/* serbisht */}
-            <img className='translation-flag' src={srb} alt='Serbisht'/>
+            <img src={srb} alt='Serbisht'/>
             {/* <span>Srpski</span> */}
           </button>
         </li>

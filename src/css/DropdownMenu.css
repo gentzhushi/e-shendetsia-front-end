@@ -35,16 +35,7 @@
     width: 3vw;
 }
 
-.translate-list:hover .dropdown-content{
-    /* kodi per me i shfaq gjuht */
-    display:flex;
-    background-color: hotpink;
-    visibility: visible;
-    transform: translateX(0); /* Move it into view */
-}
-
 .dropdown-content{
-    transform: translateX(100%); /* Start off-screen on the right */
     width: min-content;
     height: min-content;
     padding:0;
@@ -60,18 +51,6 @@
     width: 5vw;
     border-radius: 5px;
     padding: 0;
-}
-
-#shqip{
-    transition: transform 0.3s ease-in-out; /* Smooth transition */
-}
-
-#anglisht{
-    transition: transform 0.6s ease-in-out; /* Smooth transition */
-}
-
-#serbisht{
-    transition: transform 0.9s ease-in-out; /* Smooth transition */
 }
 
 @media(max-width: 500px){
