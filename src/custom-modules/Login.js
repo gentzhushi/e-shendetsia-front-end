@@ -52,6 +52,11 @@ function Login() {
         </button>
         <br/>
       </form>
+
+      {/* Footeri */}
+      <div className='footer'>
+        Powered by Ministry of Health
+      </div>
     </div>
   );
 }

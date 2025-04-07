@@ -224,3 +224,15 @@ input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
+.footer {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  z-index: 10;
+  pointer-events: none;
+  user-select: none;
+}
