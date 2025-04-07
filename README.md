@@ -28,6 +28,10 @@ Nese jo mund te instaloni ne https://nodejs.org/en/download/.
     ```
     npm install
     ```
+    ( ne rast deshtimi gjate instalimit ):
+    ```
+    npm install --legacy-peer-deps
+     ```
 ### Ekzekutimi
     
     npm start
