@@ -11,7 +11,7 @@ function HelloFromBackend() {
   }, []);
 
   return (
-    <div>
+    <div style={{minHeight: '100vh', width: '100vw', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: 'linear-gradient(-45deg,var(--accent-color), #034fa3c0)', color: 'white'}}>
       <h2>Mesazhi nga Backend: </h2>
       <p>{message}</p>
     </div>
