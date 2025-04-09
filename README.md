@@ -16,12 +16,12 @@ Nese jo mund te instaloni ne https://nodejs.org/en/download/.
 1. Klononi këtë repository:
 
     ```
-    git clone https://github.com/gentzhushi/front-end-ssh-2025
+    git clone https://github.com/gentzhushi/e-shendetsia-front-end
     ```
 2. Shkoni në direktorinë e projektit:
 
     ```
-    cd front-end-ssh-2025
+    cd e-shendetsia-front-end
     ```
 3. Instaloni varësitë:
 
