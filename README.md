@@ -1,4 +1,4 @@
-# Sistemet e Shpërndara - Frontend
+# eShëndetsia / Frontend
 
 Kjo repository është UI për projektin nga lënda "Sistemet e Shpërndara" duke përdorur React.js.
 
