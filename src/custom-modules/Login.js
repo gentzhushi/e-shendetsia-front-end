@@ -14,11 +14,12 @@ function Login() {
   
   const handleLogin = (e) => {
     e.preventDefault()
-    if (email === '' || password === '') {
-      alert(t('fill_all_fields'))
-      return
-    }
-    alert(t('login_attempt', { email, password }))
+    
+    // if (email === '' || password === '') {
+    //   alert(t('fill_all_fields'))
+    //   return
+    // }
+    // alert(t('login_attempt', { email, password }))
   }
   
   return (

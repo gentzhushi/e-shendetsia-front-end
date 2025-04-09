@@ -1,40 +1,36 @@
-# eShëndetsia / Frontend
+# eShëndetsia – Frontend
 
-Kjo repository është UI për projektin nga lënda "Sistemet e Shpërndara" duke përdorur React.js.
+Ky është backend-i i projektit të lëndës **Sistemet e Shpërndara**, zhvilluar duke përdorur **React.js**.
 
 ## Fillimi
 
 Këto udhëzime do t'ju ndihmojnë të merrni një kopje të projektit dhe ta ekzekutoni në pajisjen tuaj.
 
-### Kërkesat paraprake
+### Kushtet paraprake
 
-Sigurohuni që të keni instaluar Node.js dhe npm.\
-Nese jo mund te instaloni ne https://nodejs.org/en/download/.
+Sigurohuni të keni instaluar:
+- [Node.js dhe npm](https://nodejs.org/en/download/)
 
+Për të kontrolluar instalimin:
+```bash
+node -v
+npm -v
+```
 ### Instalimi
+Në terminalin tuaj, ekzekutoni komandat në vijim
+```
+git clone https://github.com/gentzhushi/e-shendetsia-front-end
+cd e-shendetsia-front-end
+npm install
+```
+Në rast se npm install dështon
+```
+npm install --legacy-peer-deps
+```
 
-1. Klononi këtë repository:
-
-    ```
-    git clone https://github.com/gentzhushi/e-shendetsia-front-end
-    ```
-2. Shkoni në direktorinë e projektit:
-
-    ```
-    cd e-shendetsia-front-end
-    ```
-3. Instaloni varësitë:
-
-    ```
-    npm install
-    ```
-    ( ne rast deshtimi gjate instalimit ):
-    ```
-    npm install --legacy-peer-deps
-     ```
 ### Ekzekutimi
-    
-    npm start
+```    
+npm start
+```
 
-
-Aplikacioni do të hapet në shfletuesin tuaj në adresën http://localhost:3000.
+### Aplikacioni do të hapet në shfletuesin tuaj në adresën http://localhost:3000.
