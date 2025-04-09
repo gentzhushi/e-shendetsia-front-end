@@ -1,29 +1,29 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import Emblem from './Emblem';
-import LanguageSwitcher from '../components/LanguageSwitcher';
+import Emblem from './Emblem'
+import TranslateMenu from './TranslateMenu'
 
-import '../css/login.css';
-import '../css/index.css';
+import '../css/login.css'
+import '../css/index.css'
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { t } = useTranslation();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const { t } = useTranslation()
   
   const handleLogin = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (email === '' || password === '') {
-      alert(t('fill_all_fields'));
-      return;
+      alert(t('fill_all_fields'))
+      return
     }
-    alert(t('login_attempt', { email, password }));
+    alert(t('login_attempt', { email, password }))
   }
   
   return (
     <div className='login-page'>
-      <LanguageSwitcher />
+      <TranslateMenu />
       <form onSubmit={handleLogin} id='login-form'>
         <Emblem />
         <label>
@@ -53,12 +53,8 @@ function Login() {
         <br/>
       </form>
 
-      {/* Footeri */}
-      <div className='footer'>
-        Powered by Ministry of Health
-      </div>
-    </div>
-  );
+   </div>
+  )
 }
 
 export default Login;

@@ -1,7 +1,7 @@
 .login-nav{
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 0.2%;
+    right: 0.1%;
     /* width: 100vw; */
     display: flex;
     flex-direction: column;
@@ -29,10 +29,12 @@
     border-radius: 10px;
     border: none;
     visibility: visible;
+    box-shadow: 4px 4px 10px #153269;
 }
 
 .dropdown-menu img{
     width: 3vw;
+    box-shadow: none;
 }
 
 .dropdown-content{
@@ -45,6 +47,8 @@
     justify-content: center;
     border: none;
     border-radius: 10px;
+    box-shadow: 4px 4px 10px #153269;
+
 }
 
 .dropdown-content img{
@@ -61,5 +65,9 @@
         width: 15vw;
         border-radius: 5px;
         padding: 0;
+    }
+    .dropdown-menu{
+    max-width: 10vw;
+    padding: 1%;
     }
 }

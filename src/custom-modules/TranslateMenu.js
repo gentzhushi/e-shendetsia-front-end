@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import translate from '../assets/translate-icon.png'
 import albania from '../assets/albania.svg'
 import usa from '../assets/usa.svg'
@@ -11,11 +13,15 @@ import { isVisible } from '@testing-library/user-event/dist/utils'
 import React, {useState} from 'react'
 
 function TranslateMenu(){
-  const [isVisible, setIsVisible] = useState(false);
+  const {i18n} = useTranslation();
+  const [isVisible, setIsVisible] = useState(false)
 
   const HandleTranslateClick = (e) => {
     setIsVisible(!isVisible);
   }
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
 
   const handleAlbanianClick = (e) => {
     alert('E preke Shqip!')
@@ -34,12 +40,12 @@ function TranslateMenu(){
       <ul className='translate-list'>
         <li>
           <button className='dropdown-menu' onClick={HandleTranslateClick}>
-            {/* globi */}
+            {/* tanslate buttoni */}
             <img src={translate} className='dropdown-menu' alt='Perkthe'/>
           </button>
         </li>
         <li>
-          <button className='dropdown-content' onClick={handleAlbanianClick} id='shqip'
+          <button className='dropdown-content' onClick={() => changeLanguage('sq')} id='shqip'
             style={{visibility: isVisible ? 'visible' : 'hidden'}}>
             {/* shqip */}
             <img src={albania} alt='Shqip'/>
@@ -47,7 +53,7 @@ function TranslateMenu(){
           </button>
         </li>
         <li>
-          <button className='dropdown-content' onClick={handleEnglishClick} id='anglisht'
+          <button className='dropdown-content' onClick={() => changeLanguage('en')} id='anglisht'
             style={{visibility: isVisible ? 'visible' : 'hidden'}}>
             {/* anglisht */}
             <img src={usa} alt='Anglisht'/>
@@ -55,7 +61,7 @@ function TranslateMenu(){
           </button>
         </li>
         <li>
-          <button className='dropdown-content' onClick={handleSerbianClick} id='serbisht'
+          <button className='dropdown-content' onClick={() => changeLanguage('sr')} id='serbisht'
             style={{visibility: isVisible ? 'visible' : 'hidden'}}>
             {/* serbisht */}
             <img src={srb} alt='Serbisht'/>

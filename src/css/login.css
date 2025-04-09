@@ -1,238 +1,76 @@
-:root {
-  --accent-color: #034fa3;
-  --accent-light: #0366d6;
-  --shadow-color: #153269;
-  --text-dark: #2d3748;
-  --text-light: #f8f9fa;
-  --transition-speed: 0.3s;
-}
-
 .login-page {
   position: relative;
   display: flex;
   min-height: 100vh;
   justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-  overflow: hidden;
+  /*align-items: center; */
+  background: linear-gradient(-45deg,var(--accent-color), #034fa3c0);
 }
 
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-#login-form {
-  position: relative;
+#login-form{
   align-self: center;
-  padding: 2.5rem;
+  padding: 1% 5%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 380px;
+  width: 15%;
   border: none;
-  border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  transform: translateY(0);
-  transition: all var(--transition-speed) ease;
-  overflow: hidden;
+  border-radius: 25px;
+  background-color: #fff;
+  box-shadow: 4px 4px 10px #153269;
 }
 
-#login-form::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0) 60%
-  );
-  transform: rotate(30deg);
-  pointer-events: none;
-}
-
-#login-form:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-}
-
-#login-form label {
+#login-form label{
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.5rem;
-  position: relative;
 }
 
-#login-form label span {
-  font-size: 0.9rem;
-  color: var(--text-dark);
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-
-#login-form label input {
-  padding: 0.8rem 1rem;
+#login-form label input{
+  justify-content: center;
+  border-radius: 0%;
   border: none;
-  border-bottom: 2px solid #e2e8f0;
-  background: transparent;
-  font-size: 1rem;
-  transition: all var(--transition-speed) ease;
+  border-bottom: groove;
+  justify-content: center;
 }
 
-#login-form label input:focus {
+#login-form input:focus{
   outline: none;
-  border-bottom-color: var(--accent-color);
-  box-shadow: 0 2px 0 0 var(--accent-light);
 }
 
-#login-form label input::placeholder {
-  color: #a0aec0;
-}
-
-#login-form a {
+#login-form a{
   display: flex;
   justify-content: center;
   white-space: nowrap;
-  font-size: 0.85rem;
-  margin: 1rem 0 1.5rem;
-  text-decoration: none;
-  color: var(--accent-color);
-  transition: all var(--transition-speed) ease;
-  position: relative;
-}
-
-#login-form a:hover {
-  color: var(--accent-light);
+  font-size: 60%;
+  margin-bottom: 5%;
   text-decoration: none;
 }
 
-#login-form a::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  width: 0;
-  height: 1px;
-  background: var(--accent-light);
-  transition: all var(--transition-speed) ease;
-  transform: translateX(-50%);
+#login-form a:hover{
+  text-decoration: underline;
 }
 
-#login-form a:hover::after {
-  width: 100%;
-}
-
-.accent-button {
-  padding: 0.8rem;
-  background: linear-gradient(to right, var(--accent-color), var(--accent-light));
-  color: white;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all var(--transition-speed) ease;
-}
-
-.accent-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.accent-button:active {
-  transform: translateY(0);
-}
-
-.language-switcher {
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  display: flex;
-  gap: 10px;
-  z-index: 100;
-}
-
-.language-switcher button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-  border-radius: 50%;
-  transition: all var(--transition-speed) ease;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(5px);
-}
-
-.language-switcher button:hover {
-  transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.language-switcher img {
-  width: 30px;
-  height: 20px;
-  object-fit: cover;
-  border-radius: 3px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-@media (max-width: 500px) {
-  .login-page {
-    padding: 1rem;
+@media(max-width: 500px){
+  #login-form{
+    width: max-content;
+    margin:0 5%;
+    padding: 10%;
   }
-  
-  #login-form {
-    width: 90%;
-    padding: 1.5rem;
-    margin: 0 auto;
-  }
-  
-  .language-switcher {
-    top: 15px;
-    right: 15px;
-  }
-  
-  .language-switcher img {
-    width: 25px;
-  }
-  
-  #login-form button {
-    min-height: 45px;
-    font-size: 0.9rem;
+  #login-form button{
+    align-items: center;
+    font-size: medium;
+    min-height: 50px;
   }
 }
 
-/* Remove input number arrows */
-input::-webkit-outer-spin-button,
+/* me i hek shijetat */
+.Modal form label input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-input[type="number"] {
+.Modal form label input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
-
-.footer {
-  position: absolute;
-  bottom: 15px;
-  width: 100%;
-  text-align: center;
-  color: var(--text-light);
-  font-size: 0.85rem;
-  z-index: 10;
-  pointer-events: none;
-  user-select: none;
-}
+/* ----------------- */

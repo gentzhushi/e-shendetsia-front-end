@@ -1,5 +1,5 @@
 :root{
-  --accent-color: #034fa3;
+  --accent-color: #034fa3; /* ngjyra */
   --shadow-color: #153269;
 }
 
@@ -12,32 +12,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Add language switcher styles */
-.language-switcher {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
-.language-switcher button {
-  background: none;
+.accent-button{
+  padding: 2.5%;
+  background: linear-gradient(-45deg,var(--accent-color), #034fa3c0);
+  color: white;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
-  margin: 0 5px;
-  padding: 0;
 }
-
-.language-switcher img {
-  width: 30px;
-  height: auto;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  transition: transform 0.2s;
-}
-
-.language-switcher img:hover {
-  transform: scale(1.1);
-}
-
-/* Rest of your existing styles... */
