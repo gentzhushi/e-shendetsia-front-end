@@ -23,18 +23,6 @@ function TranslateMenu(){
     i18n.changeLanguage(lng);
   };
 
-  const handleAlbanianClick = (e) => {
-    alert('E preke Shqip!')
-  }
-
-  const handleEnglishClick = (e) => {
-    alert('E preke Anglisht!')
-  }
-
-  const handleSerbianClick = (e) => {
-    alert('E preke Serbisht!')
-  }
-
   return (
     <div className='login-nav'>
       <ul className='translate-list'>
