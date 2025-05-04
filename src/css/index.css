@@ -1,7 +1,13 @@
-:root{
+/* css/index.css */
+:root {
   --accent-color: #034fa3; /* ngjyra */
   --shadow-color: #153269;
 }
+
+/* Add Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   margin: 0;
@@ -17,9 +23,9 @@ code {
     monospace;
 }
 
-.accent-button{
+.accent-button {
   padding: 2.5%;
-  background: linear-gradient(-45deg,var(--accent-color), #034fa3c0);
+  background: linear-gradient(-45deg, var(--accent-color), #034fa3c0);
   color: white;
   border-radius: 10px;
   border: none;
