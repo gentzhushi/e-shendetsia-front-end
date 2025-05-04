@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --sidebar-bg: linear-gradient(135deg, #2c7a7b, #285e61);
+  --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --text-color: #1a202c;
+}
+
+.sidebar {
+  width: 260px;
+  background: var(--sidebar-bg);
+  color: white;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-shadow: var(--card-shadow);
+  margin-right: 16px;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+
+
+.sidebar h1 {
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+  padding-top: 40px;
+  text-align: center;
+  color: #fff;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1;
+}
+
+.sidebar li {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 8px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.sidebar li:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+.sidebar svg {
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
+}
+
+.logout-button {
+  background: linear-gradient(90deg, #f56565, #e53e3e);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: 15px;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.logout-button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 200px;
+    margin-right: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 180px;
+    margin-right: 0;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar.closed {
+    transform: translateX(-100%);
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    margin-right: 0;
+  }
+
+  .sidebar-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 16px;
+  }
+
+  .sidebar h1 {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
+
+  .sidebar li {
+    padding: 8px 12px;
+  }
+
+  .sidebar svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+
+  .logout-button {
+    margin-bottom: 24px;
+    padding: 8px 12px;
+  }
+}
