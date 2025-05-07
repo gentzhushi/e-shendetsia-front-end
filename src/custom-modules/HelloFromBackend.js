@@ -4,7 +4,7 @@ function HelloFromBackend() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/hello")
+    fetch("http://localhost:8080/api/test")
       .then((res) => res.text())
       .then((data) => setMessage(data))
       .catch((err) => console.error("Error fetching:", err));
