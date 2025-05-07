@@ -1,15 +1,14 @@
 import { useTranslation } from 'react-i18next';
 
-import translate from '../assets/translate-icon.png'
-import albania from '../assets/albania.svg'
-import usa from '../assets/usa.svg'
-import srb from '../assets/srb.svg'
+import translate from '../../assets/translate-icon.png'
+import albania from '../../assets/albania.svg'
+import usa from '../../assets/usa.svg'
+import srb from '../../assets/srb.svg'
 
 // mos harro me shtu qit tag n footer
 // <a href="https://www.flaticon.com/free-icons/translate" title="translate icons">Translate icons created by Freepik - Flaticon</a>
 
-import '../css/DropdownMenu.css'
-import { isVisible } from '@testing-library/user-event/dist/utils'
+import '../../css/DropdownMenu.css'
 import React, {useState} from 'react'
 
 function TranslateMenu(){
