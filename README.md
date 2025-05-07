@@ -8,7 +8,7 @@ Keto udhezime do t'ju ndihmojne te merrni nje kopje te projektit dhe ta ekzekuto
 
 ### Kushtet paraprake
 
-Sigurohuni te keni instaluar **NPM** dhe **NodeJS**: - nese e keni, mund ta kaloni kete tek **Instalimi**.
+Sigurohuni te keni instaluar **NPM** dhe **NodeJS**: - nese e keni, mund ta kaloni kete tek [**Instalimi**](#instalimi).
 - [Node.js dhe npm](https://nodejs.org/en/download/)
 
 Per te kontrolluar instalimin:
