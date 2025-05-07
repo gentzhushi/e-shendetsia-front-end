@@ -15,9 +15,9 @@ i18n
       sq: { translation: sqTranslations },
       sr: { translation: srTranslations } 
     },
-    fallbackLng: 'en',
+    // fallbackLng: 'en',
     fallbackLng: 'sq',
-    fallbackLng: 'sr',
+    // fallbackLng: 'sr',
     interpolation: {
       escapeValue: false
     }
