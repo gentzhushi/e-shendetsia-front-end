@@ -1,29 +1,35 @@
-# eShëndetsia – Frontend
+# eShendetsia – Frontend
 
-Ky është backend-i i projektit të lëndës **Sistemet e Shpërndara**, zhvilluar duke përdorur **React.js**.
+Ky eshte frontend-i i projektit te lendes **Sistemet e Shperndara**, zhvilluar duke perdorur **React.js**.
 
 ## Fillimi
 
-Këto udhëzime do t'ju ndihmojnë të merrni një kopje të projektit dhe ta ekzekutoni në pajisjen tuaj.
+Keto udhezime do t'ju ndihmojne te merrni nje kopje te projektit dhe ta ekzekutoni ne pajisjen tuaj.
 
 ### Kushtet paraprake
 
-Sigurohuni të keni instaluar:
+Sigurohuni te keni instaluar **NPM** dhe **NodeJS**: - nese e keni, mund ta kaloni kete tek **Instalimi**.
 - [Node.js dhe npm](https://nodejs.org/en/download/)
 
-Për të kontrolluar instalimin:
+Per te kontrolluar instalimin:
+
 ```bash
 node -v
 npm -v
 ```
 ### Instalimi
-Në terminalin tuaj, ekzekutoni komandat në vijim
+Ne terminalin tuaj, ekzekutoni komandat ne vijim
+
+#### - Klononi(Downloadoni) kete repository ne pajisjen tuaj.
 ```
 git clone https://github.com/gentzhushi/e-shendetsia-front-end
 cd e-shendetsia-front-end
+```
+#### - Instaloni projektin
+```
 npm install
 ```
-Në rast se npm install dështon
+#### - Ne rast se npm install deshton:
 ```
 npm install --legacy-peer-deps
 ```
@@ -33,4 +39,4 @@ npm install --legacy-peer-deps
 npm start
 ```
 
-### Aplikacioni do të hapet në shfletuesin tuaj në adresën http://localhost:3000.
+### Aplikacioni do te hapet ne shfletuesin tuaj ne adresen http://localhost:3000.
