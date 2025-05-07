@@ -24,8 +24,6 @@ const Sidebar = ({ isOpen }) => {
       <ul>
         {[
           { label: 'Faqja Kryesore', path: '/clinics_dashboard' },
-          { label: 'Takimet', path: '/appointments' },
-          { label: 'Pacientët', path: '/patients' },
           { label: 'Settings', path: '/clinics_settings' },
         ].map((item) => (
           <li key={item.label} onClick={() => handleNavigation(item.path)}>
