@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+
+//Test file qe e krijum gjate zhvillim tprojektit me pa lidhjen e back-front permes API
 function HelloFromBackend() {
   const [message, setMessage] = useState("");
 

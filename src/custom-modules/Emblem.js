@@ -2,6 +2,7 @@ import logo from '../assets/logo.png'
 
 import '../css/emblem.css'
 
+//Krijimi i emblemes per login page
 function Emblem() {
     
     return (
@@ -16,4 +17,5 @@ function Emblem() {
     )
 }
 
+// Eksportimi nfaqe tjera
 export default Emblem;

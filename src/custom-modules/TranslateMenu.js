@@ -5,20 +5,30 @@ import albania from '../assets/albania.svg'
 import usa from '../assets/usa.svg'
 import srb from '../assets/srb.svg'
 
-// mos harro me shtu qit tag n footer
-// <a href="https://www.flaticon.com/free-icons/translate" title="translate icons">Translate icons created by Freepik - Flaticon</a>
-
 import '../css/DropdownMenu.css'
 import { isVisible } from '@testing-library/user-event/dist/utils'
 import React, {useState} from 'react'
 
+/**
+ * Komponenti qe menaxhon menune per perkthimin
+ * dhe ndryshon gjuhen e aplikacionit
+ */
 function TranslateMenu(){
   const {i18n} = useTranslation();
   const [isVisible, setIsVisible] = useState(false)
 
+  /**
+   * Funksioni qe menaxhon klikimin e butonit te perkthimit
+   * dhe tregon/fsheh butonat e gjuheve
+   * @param {Event} e - Eventi i klikimit
+   */
   const HandleTranslateClick = (e) => {
     setIsVisible(!isVisible);
   }
+  /**
+   * Funksioni qe ndryshon gjuhen e aplikacionit
+   * @param {string} lng - Kodi i gjuhes qe do te perdoret
+   */
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };

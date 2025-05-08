@@ -1,4 +1,3 @@
-// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -18,18 +17,24 @@ import PatientsDashboard from './custom-modules/patients/patients_dashboard';
 import PatientsAppointments from './custom-modules/patients/patients_appointments';
 import PatientsProfile from './custom-modules/patients/patients_profile';
 
+// Inicializon elementin root te aplikacionit
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+// Krijon strukturen kryesore te aplikacionit me routing/paths.
 root.render(
   <React.StrictMode>
     <I18nextProvider i18n={i18n}>
       <Router>
+        {/* Route/Paths kryesor te aplikacionit */}
         <Routes>
-          <Route path='/' element={<Login />} />
-          <Route path='/api/hello' element={<HelloFromBackend />} />
-          <Route path='/clinics_dashboard' element={<ClinicsDashboard />} />
-          <Route path='/clinics_settings' element={<ClinicsSettings />} />
+          {/* Faqja e hyrjes */}
+          <Route path='/' element={<Login/>}/>
+          <Route path='/api/hello' element={<HelloFromBackend/>}/>
+          {/* ROute/Path per menaxhimin e klinikave */}
+          <Route path='/clinics_dashboard' element={<ClinicsDashboard/>}/>
+          <Route path='/clinics_settings' element={<ClinicsSettings/>}/>
 
+          {/* Route/Path per menaxhimin e pacienteve */}
           <Route path='/patients_dashboard' element={<PatientsDashboard />} />
           <Route path='/patients_appointments' element={<PatientsAppointments />} />
           <Route path='/patients_profile' element={<PatientsProfile />} />
