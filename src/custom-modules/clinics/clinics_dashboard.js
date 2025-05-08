@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/clinics_css/clinics_dashboard.css';
-import '../../css/clinics_css/sidebar.css';
+import '../../css/sidebar.css';
 import { recetaMjeksore } from './receta_mjeksore';
 
 const Sidebar = ({ isOpen }) => {

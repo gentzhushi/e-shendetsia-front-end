@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/clinics_css/clinics_settings.css';
-import '../../css/clinics_css/sidebar.css';
+import '../../css/sidebar.css';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const navigate = useNavigate();

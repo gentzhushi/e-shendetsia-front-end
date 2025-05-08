@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/patients_css/patients_profile.css';
-import '../../css/clinics_css/sidebar.css';
+import '../../css/sidebar.css';
 
 const Sidebar = ({ isOpen }) => {
   const navigate = useNavigate();
