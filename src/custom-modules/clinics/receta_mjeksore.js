@@ -17,6 +17,11 @@ const recetaMjeksore = (patient, allergyAl, doctorName, prescription) => {
       box-sizing: border-box;
       position: relative;
       border: 1px solid #000; /* Border around the document */
+      overflow: auto; /* Prevent content overflow */
+    }
+    div, table {
+      position: relative; /* Ensure elements stay in document flow */
+      clear: both; /* Prevent floating issues */
     }
     .rp-label {
       position: absolute;
@@ -187,9 +192,9 @@ const recetaMjeksore = (patient, allergyAl, doctorName, prescription) => {
     </tr>
   </table>
 
-  <div>
-    <strong>Alergjitë:</strong>
-    <ul>
+  <div style="margin-top: 15px; margin-bottom: 20px; position: relative; z-index: 1;">
+    <strong style="font-size: 12pt; font-weight: bold;">Alergjitë:</strong>
+    <ul style="font-size: 12pt; line-height: 1.5; padding-left: 25px; margin: 5px 0;">
       ${patient.allergies.map(allergy => `<li>${allergyAl[allergy] || allergy}</li>`).join('')}
       ${patient.allergies.length === 0 ? `<li>Asnjë</li>` : ``}
     </ul>
@@ -202,22 +207,6 @@ const recetaMjeksore = (patient, allergyAl, doctorName, prescription) => {
     </tr>
   </table>
 
-  <div class="footer">
-    <table>
-      <tr>
-        <th style="width: 25%;"></th>
-        <th style="width: 35%;">Mjeku</th>
-        <th style="width: 25%;">Farmacisti</th>
-        <th style="width: 15%;">Kostoja</th>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>
-  </div>
 </body>
 </html>
   `.trim();
