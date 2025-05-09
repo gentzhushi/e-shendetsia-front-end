@@ -1,3 +1,16 @@
+/**
+ * Log In page
+ *
+ * Ky file shfaq formen e login qe perfshin:
+ * - Fushen e identifikimit te perdoruesit
+ * - Fushen e fjalekalimit
+ * - Linkun per fjalekalimin e harruar
+ * - Butonin e hyrjes
+ * - Menune e perkthimit
+ * - Emblemen
+ * - Footer-in
+ */
+
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Emblem from './Emblem'
@@ -6,11 +19,22 @@ import Footer from './Footer'
 import '../css/login.css'
 import '../css/index.css'
 
+/**
+ * Komponenti Login
+ * @returns {JSX.Element} Forma e hyrjes
+ */
 function Login() {
+  /** Gjendja per ruajtjen e identifikuesit te perdoruesit */
   const [email, setEmail] = useState('')
+  /** Gjendja per ruajtjen e fjalekalimit */
   const [password, setPassword] = useState('')
+  /** Hook per perkthimin */
   const { t } = useTranslation()
 
+  /**
+   * Menaxhon tentimin per hyrje
+   * @param {Event} e - Eventi i formes
+   */
   const handleLogin = (e) => {
     e.preventDefault()
 

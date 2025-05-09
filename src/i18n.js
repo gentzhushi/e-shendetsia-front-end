@@ -1,3 +1,14 @@
+/**
+ * Ky file permban konfigurimin e internationalizimit per aplikacionin
+ *
+ * Pershkrimi i pergjithshem:
+ * - Perdoret libraria i18next per menaxhimin e gjuheve
+ * - Mundeson detektimin automatik te gjuhes nga shfletuesi
+ * - Permban perkthimet per gjuhet: anglisht, shqip dhe serbisht
+ * - Perdor JSON files per ruajtjen e perkthimeve
+ * - Gjuha e parazgjedhur (fallback) eshte anglishtja
+ */
+
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';

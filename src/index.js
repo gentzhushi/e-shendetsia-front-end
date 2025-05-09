@@ -1,3 +1,16 @@
+/**
+ * Fajlli kryesor i aplikacionit qe permban:
+ * - Inicializimin e React aplikacionit
+ * - Konfigurimin e routing per navigim
+ * - Implementimin e i18n per perkthime
+ *
+ * Modulet e perfshira:
+ * - Login: Komponenti per hyrje ne sistem
+ * - HelloFromBackend: Testim i lidhjes me backend
+ * - Clinics: Menaxhimi i klinikave (dashboard, cilesimet)
+ * - Patients: Menaxhimi i pacienteve (dashboard, terminet, profili)
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -17,10 +30,10 @@ import PatientsDashboard from './custom-modules/patients/patients_dashboard';
 import PatientsAppointments from './custom-modules/patients/patients_appointments';
 import PatientsProfile from './custom-modules/patients/patients_profile';
 
-// Inicializon elementin root te aplikacionit
+// Inicializon elementin baze te aplikacionit
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-// Krijon strukturen kryesore te aplikacionit me routing/paths.
+// Krijon strukturen baze te aplikacionit me routing/paths.
 root.render(
   <React.StrictMode>
     <I18nextProvider i18n={i18n}>
