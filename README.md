@@ -39,4 +39,8 @@ npm install --legacy-peer-deps
 npm start
 ```
 
+<<<<<<< HEAD
+### Aplikacioni do të hapet në shfletuesin tuaj në adresën http://localhost:3000.# Update from ee-klinika-front branch
+=======
 ### Aplikacioni do te hapet ne shfletuesin tuaj ne adresen http://localhost:3000.
+>>>>>>> e2bd9f7530ba452ca702cba307184c9115fc34bf

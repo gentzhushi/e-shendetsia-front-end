@@ -50,6 +50,18 @@
   text-decoration: underline;
 }
 
+.footer {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 300;
+  background: transparent;
+  padding: 10px 0;
+}
+
 @media(max-width: 500px){
   #login-form{
     width: max-content;
@@ -60,6 +72,10 @@
     align-items: center;
     font-size: medium;
     min-height: 50px;
+  }
+  .footer {
+    font-size: 0.8rem;
+    padding: 8px 0;
   }
 }
 
