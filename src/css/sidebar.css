@@ -71,15 +71,15 @@
 .logout-button {
   background: linear-gradient(90deg, #f56565, #e53e3e);
   color: white;
-  padding: 10px 14px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   width: 100%;
   margin-top: auto;
-  margin-bottom: 15px;
   font-weight: 500;
   transition: transform 0.2s, box-shadow 0.3s;
+  margin-bottom: 24px;
+  padding: 8px 12px;
 }
 
 .logout-button:hover {
@@ -136,10 +136,5 @@
     width: 20px;
     height: 20px;
     margin-right: 8px;
-  }
-
-  .logout-button {
-    margin-bottom: 24px;
-    padding: 8px 12px;
   }
 }
