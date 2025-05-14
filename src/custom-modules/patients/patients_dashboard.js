@@ -41,7 +41,7 @@ const Sidebar = ({ isOpen }) => {
   );
 };
 
-const HistoryCard = ({ visit }) => (
+const HistoryCard  = ({ visit }) => (
     <div className="history-card">
       <div className="history-header">
         <p className="date">{visit.date}</p>
@@ -59,6 +59,7 @@ const Dashboard = () => {
   const [history, setHistory] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [filter, setFilter] = useState('');
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -67,39 +68,32 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchHistory = async () => {
-      const response = [
-        {
-          date: '2025-03-15',
-          doctor: 'Dr. Endrit',
-          diagnosis: 'Infeksion i rrugëve të frymëmarrjes',
-          notesAl: 'Pacienti raportoi kollë dhe temperaturë të lehtë.',
-          treatment: 'Antibiotikë (Amoxicillin 500mg, 3 herë në ditë për 7 ditë)',
-        },
-        {
-          date: '2025-02-10',
-          doctor: 'Dr. Albana',
-          diagnosis: 'Dhimbje koke kronike',
-          notesAl: 'Kontrolle rutinë, pacient raporton dhimbje koke të shpeshta.',
-          treatment: 'Ibuprofen 400mg sipas nevojës, rekomandim për MRI.',
-        },
-        {
-          date: '2024-12-20',
-          doctor: 'Dr. Endrit',
-          diagnosis: 'Gastrit',
-          notesAl: 'Pacienti raportoi dhimbje stomaku pas ushqimit.',
-          treatment: 'Omeprazol 20mg, 1 herë në ditë për 14 ditë.',
-        },
-      ];
-      setHistory(response);
+      try {
+        const response = await fetch('/api/medical-history', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch medical history');
+        }
+        const data = await response.json();
+        setHistory(Array.isArray(data) ? data : []);
+      } catch (err) {
+        setError('Error fetching medical history');
+        console.error(err);
+      }
     };
 
     fetchHistory();
   }, []);
 
   const filteredHistory = history.filter((visit) =>
-      visit.diagnosis.toLowerCase().includes(filter.toLowerCase()) ||
-      visit.notesAl.toLowerCase().includes(filter.toLowerCase()) ||
-      visit.doctor.toLowerCase().includes(filter.toLowerCase())
+      (visit.diagnosis?.toLowerCase().includes(filter.toLowerCase()) || '') ||
+      (visit.notesAl?.toLowerCase().includes(filter.toLowerCase()) || '') ||
+      (visit.doctor?.toLowerCase().includes(filter.toLowerCase()) || '')
   );
 
   return (
@@ -113,6 +107,7 @@ const Dashboard = () => {
             <h1 className="header-title">Historiku Mjekësor</h1>
             <p className="header-subtitle">Shikoni vizitat dhe trajtimet tuaja të kaluara</p>
           </div>
+          {error && <div className="error-message">{error}</div>}
           <div className="filter-section">
             <input
                 type="text"
