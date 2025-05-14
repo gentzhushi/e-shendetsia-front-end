@@ -19,6 +19,7 @@ import srTranslations from './locales/sr/translation.json';
 
 // Perdorimi i detektorit te gjuhes dhe inicializimi i librarise React i18next
 i18n
+<<<<<<< HEAD
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
@@ -29,6 +30,20 @@ i18n
         },
         fallbackLng: 'en', // Gjuha rezerve nese perkthimi nuk gjendet
         interpolation: {
+=======
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: { translation: enTranslations },
+      sq: { translation: sqTranslations },
+      sr: { translation: srTranslations } 
+    },
+    // fallbackLng: 'en',
+    fallbackLng: 'sq',
+    // fallbackLng: 'sr',
+    interpolation: {
+>>>>>>> e2bd9f7530ba452ca702cba307184c9115fc34bf
       escapeValue: false
         }
   });
