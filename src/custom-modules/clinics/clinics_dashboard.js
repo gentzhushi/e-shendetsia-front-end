@@ -5,6 +5,9 @@ import '../../css/sidebar.css';
 import { recetaMjeksore } from './receta_mjeksore';
 import html2pdf from 'html2pdf.js';
 
+// API base URL (replace with your actual backend URL)
+const API_BASE_URL = 'http://api.yourclinic.com/v1';
+
 const Sidebar = ({ isOpen }) => {
   const navigate = useNavigate();
 
@@ -86,16 +89,33 @@ const PatientDetails = ({ patient, allergyAl, onAddHistory, doctorName }) => {
 
   if (!patient) return <div className="patient-details">Zgjidh një pacient për të parë detajet</div>;
 
-  const handleSubmitHistory = (e) => {
+  const handleSubmitHistory = async (e) => {
     e.preventDefault();
     if (newNotes.trim() && newDate) {
-      onAddHistory(patient.id, {
-        date: newDate,
-        notes: newNotes,
-        notesAl: newNotes,
-      });
-      setNewNotes('');
-      setNewDate('');
+      try {
+        const response = await fetch(`${API_BASE_URL}/patients/${patient.id}/history`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            date: newDate,
+            notes: newNotes,
+            notesAl: newNotes,
+          }),
+        });
+
+        if (!response.ok) throw new Error('Failed to add history');
+
+        onAddHistory(patient.id, {
+          date: newDate,
+          notes: newNotes,
+          notesAl: newNotes,
+        });
+        setNewNotes('');
+        setNewDate('');
+      } catch (error) {
+        console.error('Error adding patient history:', error);
+        alert('Failed to add patient history. Please try again.');
+      }
     }
   };
 
@@ -105,15 +125,11 @@ const PatientDetails = ({ patient, allergyAl, onAddHistory, doctorName }) => {
   };
 
   const handleDownloadPrescription = () => {
-    // Generate HTML content from recetaMjeksore
     const htmlContent = recetaMjeksore(patient, allergyAl, doctorName, prescription);
-
-    // Create a temporary container for the HTML content
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = htmlContent;
     document.body.appendChild(tempDiv);
 
-    // Configure html2pdf options
     const opt = {
       margin: 10,
       filename: `receta_mjeksore_${patient.id}_${prescription.date}.pdf`,
@@ -122,10 +138,7 @@ const PatientDetails = ({ patient, allergyAl, onAddHistory, doctorName }) => {
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
-    // Generate and download PDF
-    // eslint-disable-next-line no-undef
     html2pdf().set(opt).from(tempDiv).save().then(() => {
-      // Clean up
       document.body.removeChild(tempDiv);
     });
   };
@@ -295,8 +308,9 @@ const Dashboard = () => {
   const [patients, setPatients] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
-  const [doctorName, setDoctorName] = useState('Dr. Endrit');
+  const [doctorName, setDoctorName] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [error, setError] = useState(null);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -319,28 +333,46 @@ const Dashboard = () => {
     });
   };
 
-  const handleCallNextPatient = () => {
+  const handleCallNextPatient = async () => {
     if (appointments.length > 0) {
       const nextAppointment = appointments[0];
       const patientName = nextAppointment.patient;
 
-      const newPatient = {
-        id: `P${(patients.length + 1).toString().padStart(3, '0')}`,
-        name: patientName,
-        history: [],
-        allergies: [],
-        notes: null,
-        notesAl: null,
-      };
+      try {
+        const response = await fetch(`${API_BASE_URL}/patients`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: patientName,
+            history: [],
+            allergies: [],
+            notes: null,
+            notesAl: null,
+          }),
+        });
 
-      if (selectedPatient) {
-        setPatients([newPatient]);
-      } else {
-        setPatients([...patients, newPatient]);
+        if (!response.ok) throw new Error('Failed to create patient');
+
+        const newPatient = await response.json();
+
+        if (selectedPatient) {
+          setPatients([newPatient]);
+        } else {
+          setPatients([...patients, newPatient]);
+        }
+
+        setSelectedPatient(newPatient);
+
+        // Remove the appointment from the backend
+        await fetch(`${API_BASE_URL}/appointments/${nextAppointment.id}`, {
+          method: 'DELETE',
+        });
+
+        setAppointments(appointments.slice(1));
+      } catch (error) {
+        console.error('Error handling next patient:', error);
+        setError('Failed to process next patient. Please try again.');
       }
-
-      setSelectedPatient(newPatient);
-      setAppointments(appointments.slice(1));
     }
   };
 
@@ -361,34 +393,39 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchPatients = async () => {
-      const response = [
-        {
-          id: 'P001',
-          name: 'Filan Fisteku',
-          history: [
-            { date: '2025-03-15', notes: 'Routine checkup, no issues.', notesAl: 'Kontroll rutinë, pa probleme.' },
-            { date: '2025-04-01', notes: 'Prescribed antibiotics for infection.', notesAl: 'U përshkruan antibiotikë për infeksion.' },
-          ],
-          allergies: ['Penicillin', 'Peanuts'],
-          notes: 'Patient reports occasional headaches.',
-          notesAl: 'Pacienti raporton dhimbje koke të herëpashershme.',
-        }
-      ];
-      setPatients(response);
+      try {
+        const response = await fetch(`${API_BASE_URL}/patients`);
+        if (!response.ok) throw new Error('Failed to fetch patients');
+        const data = await response.json();
+        setPatients(data);
+      } catch (error) {
+        console.error('Error fetching patients:', error);
+        setError('Failed to load patients. Please try again.');
+      }
     };
 
     const fetchAppointments = async () => {
-      const response = [
-        { patient: 'Albin Kurti', date: '2025-04-05', time: '11:20:00', notes: '', notesAl: '' },
-        { patient: 'Hashim Thaci', date: '2025-04-05', time: '11:20:00', notes: '', notesAl: '' },
-        { patient: 'Ramush Haradinaj', date: '2025-04-05', time: '11:20:00', notes: '', notesAl: '' }
-      ];
-      setAppointments(response);
+      try {
+        const response = await fetch(`${API_BASE_URL}/appointments`);
+        if (!response.ok) throw new Error('Failed to fetch appointments');
+        const data = await response.json();
+        setAppointments(data);
+      } catch (error) {
+        console.error('Error fetching appointments:', error);
+        setError('Failed to load appointments. Please try again.');
+      }
     };
 
     const fetchDoctorName = async () => {
-      const response = 'Dr. Endrit';
-      setDoctorName(response);
+      try {
+        const response = await fetch(`${API_BASE_URL}/doctor`);
+        if (!response.ok) throw new Error('Failed to fetch doctor name');
+        const data = await response.json();
+        setDoctorName(data.name);
+      } catch (error) {
+        console.error('Error fetching doctor name:', error);
+        setError('Failed to load doctor information. Please try again.');
+      }
     };
 
     fetchPatients();
@@ -411,6 +448,7 @@ const Dashboard = () => {
           <button className="toggle-button" onClick={toggleSidebar}>
             {isSidebarOpen ? '✖' : '☰'}
           </button>
+          {error && <div className="error-message">{error}</div>}
           <div className="header">
             <h1 className="header-title">Mirë se vini, {doctorName}</h1>
             <p className="header-subtitle">Përmbledhja e panelit tuaj</p>
