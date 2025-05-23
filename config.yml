@@ -1,0 +1,11 @@
+# KY FAJLL U NDERTU DMTH PER FETCH NGA ENDPOINTS T'URL TAPI TBACK-END PROJEKTIT TONE, IDEJA E FAJLLIT O ME NDRYSHU MA LEHT NAJ PATH SPECIFIK MOS ME PAS NEVOJ ME HI NQDO FAJLL ME NDRRU!
+
+api:
+  base_url: http://localhost:8080/api
+  endpoints:
+    clinics_dashboard: /clinics_dashboard
+    clinics_settings: /clinics_settings
+
+    patients_dashboard: /patients_dashboard
+    patients_appointments: /patients_appointments
+    patients_profile: /patients_profile

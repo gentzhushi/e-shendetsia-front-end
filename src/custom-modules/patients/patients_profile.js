@@ -5,8 +5,9 @@ import * as Yup from 'yup';
 import '../../css/patients_css/patients_profile.css';
 import '../../css/sidebar.css';
 
-// Base URL e API (DUHET ME NDRYSHU ME URL AKTUALE TAPI TON):
-const API_BASE_URL = 'https://localhost:8080/api/patients_profile';
+//Prej loadConfig.js e merr pathin nga config.yml , edhe me ni enviroment variable e store pathin nUpperCase:
+const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}${process.env.REACT_APP_API_ENDPOINT_PATIENTS_PROFILE}`;
+
 
 // Validation schema using Yup
 const validationSchema = Yup.object({

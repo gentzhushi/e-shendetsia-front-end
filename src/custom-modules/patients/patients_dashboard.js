@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/patients_css/patients_dashboard.css';
 import '../../css/sidebar.css';
 
-// Base URL e API (DUHET ME NDRYSHU ME URL AKTUALE TAPI TON):
-const API_BASE_URL = 'https://localhost:8080/api/patients_dashboard';
+//Prej loadConfig.js e merr pathin nga config.yml , edhe me ni enviroment variable e store pathin nUpperCase:
+const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}${process.env.REACT_APP_API_ENDPOINT_PATIENTS_DASHBOARD}`;
+
 
 const Sidebar = ({ isOpen }) => {
   const navigate = useNavigate();

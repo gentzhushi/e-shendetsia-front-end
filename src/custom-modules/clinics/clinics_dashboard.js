@@ -5,8 +5,8 @@ import '../../css/sidebar.css';
 import { recetaMjeksore } from './receta_mjeksore';
 import html2pdf from 'html2pdf.js';
 
-// Base URL e API (DUHET ME NDRYSHU ME URL AKTUALE TAPI TON):
-const API_BASE_URL = 'https://localhost:8080/api/clinics_dashboard';
+//Prej loadConfig.js e merr pathin nga config.yml , edhe me ni enviroment variable e store pathin nUpperCase:
+const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}${process.env.REACT_APP_API_ENDPOINT_CLINICS_DASHBOARD}`;
 
 const Sidebar = ({ isOpen }) => {
   const navigate = useNavigate();
@@ -142,10 +142,9 @@ const PatientDetails = ({ patient, allergyAl, onAddHistory, doctorName }) => {
       filename: `receta_mjeksore_${patient.id}_${prescription.date}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     };
 
-    // eslint-disable-next-line no-undef
     html2pdf().set(opt).from(tempDiv).save().then(() => {
       document.body.removeChild(tempDiv);
     });
