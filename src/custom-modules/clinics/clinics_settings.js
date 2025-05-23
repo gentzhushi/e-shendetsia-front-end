@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/clinics_css/clinics_settings.css';
 import '../../css/sidebar.css';
 
+// Base URL for API (replace with your actual API URL)
+const API_BASE_URL = 'https://api.e-shendetesia.com';
+
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const navigate = useNavigate();
 
@@ -17,7 +20,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     navigate('/');
   };
 
-   return (
+  return (
       <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
         <h1>e-shendetesia</h1>
         <ul>
@@ -25,22 +28,22 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             { label: 'Faqja Kryesore', path: '/clinics_dashboard' },
             { label: 'Settings', path: '/clinics_settings' },
           ].map((item) => (
-            <li key={item.label} onClick={() => handleNavigation(item.path)}>
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12h18M3 6h18M3 18h18" />
-              </svg>
-              {item.label}
-            </li>
+              <li key={item.label} onClick={() => handleNavigation(item.path)}>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12h18M3 6h18M3 18h18" />
+                </svg>
+                {item.label}
+              </li>
           ))}
         </ul>
         <button className="logout-button" onClick={handleLogout}>
           Dil
         </button>
       </div>
-    );
-  };
+  );
+};
 
-const DoctorSettingsForm = ({ doctorProfile, onSave }) => {
+const DoctorSettingsForm = ({ doctorProfile, onSave, isLoading, error }) => {
   const [profile, setProfile] = useState(doctorProfile);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -50,25 +53,25 @@ const DoctorSettingsForm = ({ doctorProfile, onSave }) => {
   const handleProfileChange = (e) => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
-    setSuccessMessage(''); // Clear success message on change
+    setSuccessMessage('');
   };
 
   const handlePasswordChange = (e) => {
     setNewPassword(e.target.value);
     setPasswordError('');
-    setSuccessMessage(''); // Clear success message on change
+    setSuccessMessage('');
   };
 
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
     setPasswordError('');
-    setSuccessMessage(''); // Clear success message on change
+    setSuccessMessage('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic password validation
+    // Client-side password validation
     if (newPassword && newPassword !== confirmPassword) {
       setPasswordError('Fjalëkalimet nuk përputhen.');
       return;
@@ -84,99 +87,124 @@ const DoctorSettingsForm = ({ doctorProfile, onSave }) => {
       updatedProfile.password = newPassword;
     }
 
-    onSave(updatedProfile);
-    setSuccessMessage('Ndryshimet u ruajtën me sukses!');
-    setNewPassword('');
-    setConfirmPassword('');
+    try {
+      const response = await fetch(`${API_BASE_URL}/doctor`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add authentication headers if needed
+          // 'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(updatedProfile),
+      });
+
+      if (!response.ok) throw new Error('Failed to update profile');
+      const savedProfile = await response.json();
+      onSave(savedProfile);
+      setSuccessMessage('Ndryshimet u ruajtën me sukses!');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      setPasswordError('Gabim gjatë ruajtjes së ndryshimeve.');
+    }
   };
 
   return (
-    <div className="settings-container">
-      <div className="settings-card">
-        <h2 className="settings-title">Cilësimet e Mjekut</h2>
-        <form onSubmit={handleSubmit} className="settings-form">
-          <div className="form-section">
-            <h3 className="section-title">Profili i Mjekut</h3>
-            <div className="form-group">
-              <label htmlFor="doctorName">
-                <span className="icon">👤</span> Emri i Mjekut:
-              </label>
-              <input
-                id="doctorName"
-                name="name"
-                type="text"
-                value={profile.name}
-                onChange={handleProfileChange}
-                placeholder="Emri i mjekut"
-                className="settings-input"
-                disabled
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="doctorEmail">
-                <span className="icon">📧</span> Email:
-              </label>
-              <input
-                id="doctorEmail"
-                name="email"
-                type="email"
-                value={profile.email}
-                onChange={handleProfileChange}
-                placeholder="Email i mjekut"
-                className="settings-input"
-                required
-              />
-            </div>
-          </div>
+      <div className="settings-container">
+        <div className="settings-card">
+          <h2 className="settings-title">Cilësimet e Mjekut</h2>
+          {isLoading ? (
+              <p>Duke ngarkuar...</p>
+          ) : error ? (
+              <p className="error-message">Gabim: {error}</p>
+          ) : (
+              <form onSubmit={handleSubmit} className="settings-form">
+                <div className="form-section">
+                  <h3 className="section-title">Profili i Mjekut</h3>
+                  <div className="form-group">
+                    <label htmlFor="doctorName">
+                      <span className="icon">👤</span> Emri i Mjekut:
+                    </label>
+                    <input
+                        id="doctorName"
+                        name="name"
+                        type="text"
+                        value={profile.name}
+                        onChange={handleProfileChange}
+                        placeholder="Emri i mjekut"
+                        className="settings-input"
+                        disabled
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="doctorEmail">
+                      <span className="icon">📧</span> Email:
+                    </label>
+                    <input
+                        id="doctorEmail"
+                        name="email"
+                        type="email"
+                        value={profile.email}
+                        onChange={handleProfileChange}
+                        placeholder="Email i mjekut"
+                        className="settings-input"
+                        required
+                    />
+                  </div>
+                </div>
 
-          <div className="form-section">
-            <h3 className="section-title">Ndrysho Fjalëkalimin</h3>
-            <div className="form-group">
-              <label htmlFor="newPassword">
-                <span className="icon">🔒</span> Fjalëkalimi i Ri:
-              </label>
-              <input
-                id="newPassword"
-                type="password"
-                value={newPassword}
-                onChange={handlePasswordChange}
-                placeholder="Fjalëkalimi i ri"
-                className="settings-input"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="confirmPassword">
-                <span className="icon">🔐</span> Konfirmo Fjalëkalimin:
-              </label>
-              <input
-                id="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-                placeholder="Konfirmo fjalëkalimin"
-                className="settings-input"
-              />
-            </div>
-            {passwordError && <p className="error-message">{passwordError}</p>}
-            {successMessage && <p className="success-message">{successMessage}</p>}
-          </div>
+                <div className="form-section">
+                  <h3 className="section-title">Ndrysho Fjalëkalimin</h3>
+                  <div className="form-group">
+                    <label htmlFor="newPassword">
+                      <span className="icon">🔒</span> Fjalëkalimi i Ri:
+                    </label>
+                    <input
+                        id="newPassword"
+                        type="password"
+                        value={newPassword}
+                        onChange={handlePasswordChange}
+                        placeholder="Fjalëkalimi i ri"
+                        className="settings-input"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="confirmPassword">
+                      <span className="icon">🔐</span> Konfirmo Fjalëkalimin:
+                    </label>
+                    <input
+                        id="confirmPassword"
+                        type="password"
+                        value={confirmPassword}
+                        onChange={handleConfirmPasswordChange}
+                        placeholder="Konfirmo fjalëkalimin"
+                        className="settings-input"
+                    />
+                  </div>
+                  {passwordError && <p className="error-message">{passwordError}</p>}
+                  {successMessage && <p className="success-message">{successMessage}</p>}
+                </div>
 
-          <button type="submit" className="save-button">
-            <span className="icon">💾</span> Ruaj Ndryshimet
-          </button>
-        </form>
+                <button type="submit" className="save-button" disabled={isLoading}>
+                  <span className="icon">💾</span> Ruaj Ndryshimet
+                </button>
+              </form>
+          )}
+        </div>
       </div>
-    </div>
   );
 };
 
 const Settings = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [doctorProfile, setDoctorProfile] = useState({
-    name: 'Dr. Endrit',
-    email: 'endrit@example.com',
-    password: '********', // Placeholder for the current password (not shown in UI)
+    name: '',
+    email: '',
+    password: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -188,35 +216,65 @@ const Settings = () => {
 
   useEffect(() => {
     const fetchDoctorProfile = async () => {
-      // Simulate fetching the doctor's profile from a backend
-      const response = {
-        name: 'Dr. Endrit',
-        email: 'endrit@example.com',
-        password: '********', // Placeholder
-      };
-      setDoctorProfile(response);
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch(`${API_BASE_URL}/doctor`, {
+          headers: {
+            // Add authentication headers if needed
+            // 'Authorization': `Bearer ${token}`
+          },
+        });
+        if (!response.ok) throw new Error('Failed to fetch doctor profile');
+        const data = await response.json();
+        setDoctorProfile({
+          name: data.name || '',
+          email: data.email || '',
+          password: '', // Password not returned from API for security
+        });
+      } catch (error) {
+        console.error('Error fetching doctor profile:', error);
+        setError('Gabim gjatë ngarkimit të profilit të mjekut');
+        setDoctorProfile({
+          name: 'Dr. Unknown',
+          email: '',
+          password: '',
+        });
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchDoctorProfile();
   }, []);
 
   return (
-    <div className="dashboard-container">
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-        <button className="toggle-button" onClick={toggleSidebar}>
-          {isSidebarOpen ? '✖' : '☰'}
-        </button>
-        <div className="header">
-          <h1 className="header-title">Cilësimet</h1>
-          <p className="header-subtitle">Menaxho cilësimet e profilit të mjekut</p>
+      <div className="dashboard-container">
+        <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+          <button className="toggle-button" onClick={toggleSidebar}>
+            {isSidebarOpen ? '✖' : '☰'}
+          </button>
+          <div className="header">
+            {isLoading ? (
+                <p>Duke ngarkuar...</p>
+            ) : error ? (
+                <p className="error-message">Gabim: {error}</p>
+            ) : (
+                <>
+                  <h1 className="header-title">Cilësimet</h1>
+                  <p className="header-subtitle">Menaxho cilësimet e profilit të mjekut</p>
+                </>
+            )}
+          </div>
+          <DoctorSettingsForm
+              doctorProfile={doctorProfile}
+              onSave={handleSaveSettings}
+              isLoading={isLoading}
+              error={error}
+          />
         </div>
-        <DoctorSettingsForm
-          doctorProfile={doctorProfile}
-          onSave={handleSaveSettings}
-        />
       </div>
-    </div>
   );
 };
 
