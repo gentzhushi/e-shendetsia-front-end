@@ -1,18 +1,6 @@
-/**
- * Log In page
- *
- * Ky file shfaq formen e login qe perfshin:
- * - Fushen e identifikimit te perdoruesit
- * - Fushen e fjalekalimit
- * - Linkun per fjalekalimin e harruar
- * - Butonin e hyrjes
- * - Menune e perkthimit
- * - Emblemen
- * - Footer-in
- */
-
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import Emblem from './Emblem'
 import TranslateMenu from './TranslateMenu'
 import Footer from './Footer'
@@ -24,61 +12,72 @@ import '../css/index.css'
  * @returns {JSX.Element} Forma e hyrjes
  */
 function Login() {
-  /** Gjendja per ruajtjen e identifikuesit te perdoruesit */
-  const [email, setEmail] = useState('')
-  /** Gjendja per ruajtjen e fjalekalimit */
-  const [password, setPassword] = useState('')
-  /** Hook per perkthimin */
-  const { t } = useTranslation()
+    /** Hook per perkthimin */
+    const { t } = useTranslation()
 
-  /**
-   * Menaxhon tentimin per hyrje
-   * @param {Event} e - Eventi i formes
-   */
-  const handleLogin = (e) => {
-    e.preventDefault()
-
-    // if (email === '' || password === '') {
-    //   alert(t('fill_all_fields'))
-    //   return
-    // }
-    // alert(t('login_attempt', { email, password }))
-  }
-
-  return (
-      <div className='login-page'>
-        <TranslateMenu />
-        <form onSubmit={handleLogin} id='login-form'>
-          <Emblem />
-          <label>
-            {t('username')}:
-            <input
-                type='number'
-                pattern='[0-9]*'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
-          <br/>
-          <label>
-            {t('password')}:
-            <input
-                type='password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-          <br/>
-
-          <a href='/'>{t('forgot_password')}</a>
-          <button className='accent-button' type='submit'>
-            {t('login_button')}
-          </button>
-          <br/>
-        </form>
-        <Footer />
-      </div>
-  )
+    return (
+        <div className='login-page'>
+            <TranslateMenu />
+            <Formik
+                initialValues={{ id: '', password: '' }}
+                validate={values => {
+                    const errors = {}
+                    if (!values.id) {
+                        errors.id = t('Ju lutem plotesoni gjitha fushat!')
+                    } else if (!/^[0-9]+$/.test(values.id)) {
+                        errors.id = t('Format Jo-Valid!')
+                    }
+                    if (!values.password) {
+                        errors.password = t('Ju lutem plotesoni gjitha fushat!')
+                    } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(values.password)) {
+                        errors.password = t('Passwordi duhet te kete 1 Uppercase, 1 Lowercase, 1 Number, 1 Special Character, dhe te kete 8 karaktere i gjatë')
+                    }
+                    return errors
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                    // Simulate login attempt
+                    alert(t('login_attempt', { id: values.id, password: values.password }))
+                    setSubmitting(false)
+                }}
+            >
+                {({ isSubmitting }) => (
+                    <Form id='login-form'>
+                        <Emblem />
+                        <label>
+                            {t('username')}:
+                            <Field
+                                type='number'
+                                name='id'
+                                pattern='[0-9]*'
+                            />
+                            <ErrorMessage name='id' component='div' className='error' />
+                        </label>
+                        <br/>
+                        <label>
+                            {t('password')}:
+                            <Field
+                                type='password'
+                                name='password'
+                                autoComplete='new-password'
+                            />
+                            <ErrorMessage name='password' component='div' className='error' />
+                        </label>
+                        <br/>
+                        <a href='/'>{t('forgot_password')}</a>
+                        <button
+                            className='accent-button'
+                            type='submit'
+                            disabled={isSubmitting}
+                        >
+                            {t('login_button')}
+                        </button>
+                        <br/>
+                    </Form>
+                )}
+            </Formik>
+            <Footer />
+        </div>
+    )
 }
 
 export default Login;

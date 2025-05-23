@@ -79,6 +79,12 @@
   }
 }
 
+.error {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 0.2em;
+}
+
 /* me i hek shijetat */
 .Modal form label input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

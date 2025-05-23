@@ -5,6 +5,9 @@ import '../../css/sidebar.css';
 import { recetaMjeksore } from './receta_mjeksore';
 import html2pdf from 'html2pdf.js';
 
+// Base URL e API (DUHET ME NDRYSHU ME URL AKTUALE TAPI TON):
+const API_BASE_URL = 'https://api.e-shendetesia.com';
+
 const Sidebar = ({ isOpen }) => {
   const navigate = useNavigate();
 
@@ -52,24 +55,32 @@ const StatCard = ({ title, value, type, icon }) => (
     </div>
 );
 
-const PatientList = ({ patients, onSelectPatient }) => (
+const PatientList = ({ patients, onSelectPatient, isLoading, error }) => (
     <div className="patient-list">
       <h2>Pacientët</h2>
-      <div className="patients-list">
-        {patients.map((patient) => (
-            <div
-                key={patient.id}
-                className="patient-item"
-                onClick={() => onSelectPatient(patient)}
-            >
-              <div className="patient-avatar">{patient.name[0]}</div>
-              <div className="patient-info">
-                <p className="name">{patient.name}</p>
-                <p className="id">ID: {patient.id}</p>
-              </div>
-            </div>
-        ))}
-      </div>
+      {isLoading ? (
+          <p>Duke ngarkuar...</p>
+      ) : error ? (
+          <p className="error">Gabim: {error}</p>
+      ) : patients.length === 0 ? (
+          <p>Nuk ka pacientë të disponueshëm.</p>
+      ) : (
+          <div className="patients-list">
+            {patients.map((patient) => (
+                <div
+                    key={patient.id}
+                    className="patient-item"
+                    onClick={() => onSelectPatient(patient)}
+                >
+                  <div className="patient-avatar">{patient.name[0]}</div>
+                  <div className="patient-info">
+                    <p className="name">{patient.name}</p>
+                    <p className="id">ID: {patient.id}</p>
+                  </div>
+                </div>
+            ))}
+          </div>
+      )}
     </div>
 );
 
@@ -86,16 +97,32 @@ const PatientDetails = ({ patient, allergyAl, onAddHistory, doctorName }) => {
 
   if (!patient) return <div className="patient-details">Zgjidh një pacient për të parë detajet</div>;
 
-  const handleSubmitHistory = (e) => {
+  const handleSubmitHistory = async (e) => {
     e.preventDefault();
     if (newNotes.trim() && newDate) {
-      onAddHistory(patient.id, {
-        date: newDate,
-        notes: newNotes,
-        notesAl: newNotes,
-      });
-      setNewNotes('');
-      setNewDate('');
+      try {
+        const response = await fetch(`${API_BASE_URL}/patients/${patient.id}/history`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // Add authentication headers if needed
+            // 'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            date: newDate,
+            notes: newNotes,
+            notesAl: newNotes,
+          }),
+        });
+        if (!response.ok) throw new Error('Failed to add history');
+        const newHistoryEntry = await response.json();
+        onAddHistory(patient.id, newHistoryEntry);
+        setNewNotes('');
+        setNewDate('');
+      } catch (error) {
+        console.error('Error adding history:', error);
+        alert('Gabim gjatë shtimit të historisë');
+      }
     }
   };
 
@@ -105,15 +132,11 @@ const PatientDetails = ({ patient, allergyAl, onAddHistory, doctorName }) => {
   };
 
   const handleDownloadPrescription = () => {
-    // Generate HTML content from recetaMjeksore
     const htmlContent = recetaMjeksore(patient, allergyAl, doctorName, prescription);
-
-    // Create a temporary container for the HTML content
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = htmlContent;
     document.body.appendChild(tempDiv);
 
-    // Configure html2pdf options
     const opt = {
       margin: 10,
       filename: `receta_mjeksore_${patient.id}_${prescription.date}.pdf`,
@@ -122,10 +145,8 @@ const PatientDetails = ({ patient, allergyAl, onAddHistory, doctorName }) => {
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
-    // Generate and download PDF
     // eslint-disable-next-line no-undef
     html2pdf().set(opt).from(tempDiv).save().then(() => {
-      // Clean up
       document.body.removeChild(tempDiv);
     });
   };
@@ -257,10 +278,14 @@ const PatientDetails = ({ patient, allergyAl, onAddHistory, doctorName }) => {
   );
 };
 
-const AppointmentList = ({ appointments, onCallNext }) => (
+const AppointmentList = ({ appointments, onCallNext, isLoading, error }) => (
     <div className="appointment-list">
       <h2>Takimet e Ardhshme</h2>
-      {appointments.length > 0 ? (
+      {isLoading ? (
+          <p>Duke ngarkuar...</p>
+      ) : error ? (
+          <p className="error">Gabim: {error}</p>
+      ) : appointments.length > 0 ? (
           <>
             <button
                 className="accent-button call-next-button"
@@ -295,8 +320,18 @@ const Dashboard = () => {
   const [patients, setPatients] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
-  const [doctorName, setDoctorName] = useState('Dr. Endrit');
+  const [doctorName, setDoctorName] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState({
+    patients: false,
+    appointments: false,
+    doctor: false,
+  });
+  const [error, setError] = useState({
+    patients: null,
+    appointments: null,
+    doctor: null,
+  });
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -319,28 +354,51 @@ const Dashboard = () => {
     });
   };
 
-  const handleCallNextPatient = () => {
+  const handleCallNextPatient = async () => {
     if (appointments.length > 0) {
       const nextAppointment = appointments[0];
       const patientName = nextAppointment.patient;
 
-      const newPatient = {
-        id: `P${(patients.length + 1).toString().padStart(3, '0')}`,
-        name: patientName,
-        history: [],
-        allergies: [],
-        notes: null,
-        notesAl: null,
-      };
+      try {
+        const response = await fetch(`${API_BASE_URL}/patients`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // Add authentication headers if needed
+            // 'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            name: patientName,
+            history: [],
+            allergies: [],
+            notes: null,
+            notesAl: null,
+          }),
+        });
+        if (!response.ok) throw new Error('Failed to create patient');
+        const newPatient = await response.json();
 
-      if (selectedPatient) {
-        setPatients([newPatient]);
-      } else {
-        setPatients([...patients, newPatient]);
+        if (selectedPatient) {
+          setPatients([newPatient]);
+        } else {
+          setPatients([...patients, newPatient]);
+        }
+
+        setSelectedPatient(newPatient);
+        setAppointments(appointments.slice(1));
+
+        // Optionally delete the appointment from the backend
+        await fetch(`${API_BASE_URL}/appointments/${nextAppointment.id}`, {
+          method: 'DELETE',
+          headers: {
+            // Add authentication headers if needed
+            // 'Authorization': `Bearer ${token}`
+          },
+        });
+      } catch (error) {
+        console.error('Error calling next patient:', error);
+        setError((prev) => ({ ...prev, patients: 'Gabim gjatë shtimit të pacientit' }));
       }
-
-      setSelectedPatient(newPatient);
-      setAppointments(appointments.slice(1));
     }
   };
 
@@ -361,34 +419,67 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchPatients = async () => {
-      const response = [
-        {
-          id: 'P001',
-          name: 'Filan Fisteku',
-          history: [
-            { date: '2025-03-15', notes: 'Routine checkup, no issues.', notesAl: 'Kontroll rutinë, pa probleme.' },
-            { date: '2025-04-01', notes: 'Prescribed antibiotics for infection.', notesAl: 'U përshkruan antibiotikë për infeksion.' },
-          ],
-          allergies: ['Penicillin', 'Peanuts'],
-          notes: 'Patient reports occasional headaches.',
-          notesAl: 'Pacienti raporton dhimbje koke të herëpashershme.',
-        }
-      ];
-      setPatients(response);
+      setIsLoading((prev) => ({ ...prev, patients: true }));
+      setError((prev) => ({ ...prev, patients: null }));
+      try {
+        const response = await fetch(`${API_BASE_URL}/patients`, {
+          headers: {
+            // Add authentication headers if needed
+            // 'Authorization': `Bearer ${token}`
+          },
+        });
+        if (!response.ok) throw new Error('Failed to fetch patients');
+        const data = await response.json();
+        setPatients(data);
+      } catch (error) {
+        console.error('Error fetching patients:', error);
+        setError((prev) => ({ ...prev, patients: 'Gabim gjatë ngarkimit të pacientëve' }));
+      } finally {
+        setIsLoading((prev) => ({ ...prev, patients: false }));
+      }
     };
 
     const fetchAppointments = async () => {
-      const response = [
-        { patient: 'Albin Kurti', date: '2025-04-05', time: '11:20:00', notes: '', notesAl: '' },
-        { patient: 'Hashim Thaci', date: '2025-04-05', time: '11:20:00', notes: '', notesAl: '' },
-        { patient: 'Ramush Haradinaj', date: '2025-04-05', time: '11:20:00', notes: '', notesAl: '' }
-      ];
-      setAppointments(response);
+      setIsLoading((prev) => ({ ...prev, appointments: true }));
+      setError((prev) => ({ ...prev, appointments: null }));
+      try {
+        const response = await fetch(`${API_BASE_URL}/appointments`, {
+          headers: {
+            // Add authentication headers if needed
+            // 'Authorization': `Bearer ${token}`
+          },
+        });
+        if (!response.ok) throw new Error('Failed to fetch appointments');
+        const data = await response.json();
+        setAppointments(data);
+      } catch (error) {
+        console.error('Error fetching appointments:', error);
+        setError((prev) => ({ ...prev, appointments: 'Gabim gjatë ngarkimit të takimeve' }));
+      } finally {
+        setIsLoading((prev) => ({ ...prev, appointments: false }));
+      }
     };
 
     const fetchDoctorName = async () => {
-      const response = 'Dr. Endrit';
-      setDoctorName(response);
+      setIsLoading((prev) => ({ ...prev, doctor: true }));
+      setError((prev) => ({ ...prev, doctor: null }));
+      try {
+        const response = await fetch(`${API_BASE_URL}/doctor`, {
+          headers: {
+            // Add authentication headers if needed
+            // 'Authorization': `Bearer ${token}`
+          },
+        });
+        if (!response.ok) throw new Error('Failed to fetch doctor name');
+        const data = await response.json();
+        setDoctorName(data.name || 'Dr. Unknown');
+      } catch (error) {
+        console.error('Error fetching doctor name:', error);
+        setError((prev) => ({ ...prev, doctor: 'Gabim gjatë ngarkimit të emrit të doktorit' }));
+        setDoctorName('Dr. Unknown');
+      } finally {
+        setIsLoading((prev) => ({ ...prev, doctor: false }));
+      }
     };
 
     fetchPatients();
@@ -412,8 +503,16 @@ const Dashboard = () => {
             {isSidebarOpen ? '✖' : '☰'}
           </button>
           <div className="header">
-            <h1 className="header-title">Mirë se vini, {doctorName}</h1>
-            <p className="header-subtitle">Përmbledhja e panelit tuaj</p>
+            {isLoading.doctor ? (
+                <p>Duke ngarkuar...</p>
+            ) : error.doctor ? (
+                <p className="error">Gabim: {error.doctor}</p>
+            ) : (
+                <>
+                  <h1 className="header-title">Mirë se vini, {doctorName}</h1>
+                  <p className="header-subtitle">Përmbledhja e panelit tuaj</p>
+                </>
+            )}
           </div>
           <div className="stats-container">
             <StatCard
@@ -430,7 +529,12 @@ const Dashboard = () => {
             />
           </div>
           <div className="content-sections">
-            <PatientList patients={patients} onSelectPatient={handleSelectPatient} />
+            <PatientList
+                patients={patients}
+                onSelectPatient={handleSelectPatient}
+                isLoading={isLoading.patients}
+                error={error.patients}
+            />
             <PatientDetails
                 patient={selectedPatient}
                 allergyAl={allergyAl}
@@ -438,7 +542,12 @@ const Dashboard = () => {
                 doctorName={doctorName}
             />
           </div>
-          <AppointmentList appointments={appointments} onCallNext={handleCallNextPatient} />
+          <AppointmentList
+              appointments={appointments}
+              onCallNext={handleCallNextPatient}
+              isLoading={isLoading.appointments}
+              error={error.appointments}
+          />
         </div>
       </div>
   );
