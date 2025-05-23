@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/clinics_css/clinics_settings.css';
 import '../../css/sidebar.css';
 
-// Base URL for API (replace with your actual API URL)
-const API_BASE_URL = 'https://api.e-shendetesia.com';
+// Base URL e API (DUHET ME NDRYSHU ME URL AKTUALE TAPI TON):
+const API_BASE_URL = 'https://localhost:8080/api/clinics_settings';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const navigate = useNavigate();

@@ -6,7 +6,7 @@ import { recetaMjeksore } from './receta_mjeksore';
 import html2pdf from 'html2pdf.js';
 
 // Base URL e API (DUHET ME NDRYSHU ME URL AKTUALE TAPI TON):
-const API_BASE_URL = 'https://api.e-shendetesia.com';
+const API_BASE_URL = 'https://localhost:8080/api/clinics_dashboard';
 
 const Sidebar = ({ isOpen }) => {
   const navigate = useNavigate();
